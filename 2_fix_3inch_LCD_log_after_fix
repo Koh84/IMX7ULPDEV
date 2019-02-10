@@ -1,0 +1,512 @@
+Welcome to minicom 2.7.1
+
+OPTIONS: I18n                                                                
+Compiled on Aug 13 2017, 15:25:34.                                           
+Port /dev/ttyUSB1, 18:17:44                                                  
+                                                                             
+Press CTRL-A Z for help on special keys                                      
+                                                                             
+                                                                             
+                                                                             
+U-Boot 2017.03-dirty (Feb 02 2019 - 18:02:14 +0000)                          
+                                                                             
+CPU:   Freescale i.MX7ULP rev2.0 at 500 MHz                                  
+Reset cause: POR                        
+Boot mode: Dual boot                    
+Model: NXP i.MX7ULP EVK                 
+DRAM:  1 GiB                            
+MMC:   FSL_SDHC: 0                      
+*** Warning - bad CRC, using default environment
+
+No panel detected: default to HX8363_WVGA
+Display: HX8363_WVGA (480x854)
+Video: 480x854x24
+xres: 480
+bpp: 24
+MIPI DSI LCD HX8363 setup.
+In:    serial
+Out:   serial
+Err:   serial
+flash target is MMC:0
+Net:   Net Initialization Skipped
+No ethernet found.
+Fastboot: Normal
+Hit any key to stop autoboot:  1 
+
+verify OK, boot 'boot'
+kernel   @ 62808000 (9369608)
+ramdisk  @ 63800000 (1357388)
+fdt      @ 63700000 (21684)
+## Booting Android Image at 0x62807800 ...
+Kernel load addr 0x62808000 size 9151 KiB
+Kernel command line: console=ttyLP0,115200 init=/init androidboot.console=ttyLP0 consoleblank=0 androidboot.hardware=freescale vmalloc=128M cma=448M buildvariant=eng androidboot.serialno=031e080e8296ecacg
+## Flattened Device Tree blob at 63700000
+   Booting using the fdt blob at 0x63700000
+   XIP Kernel Image ... OK
+   Using Device Tree in place at 63700000, end 637084b3
+
+Starting kernel ...
+
+Booting Linux on physical CPU 0xf00
+Linux version 4.9.94-dirty (root@Crucial) (gcc version 4.9.x 20150123 (prerelease) (GCC) ) #2 SMP PREEMPT Sat Feb 2 18:02:23 GMT 2019
+CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=10c53c7d
+CPU: div instructions available: patching division code
+CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+OF: fdt:Machine model: NXP i.MX7ULP EVK
+cma: Reserved 448 MiB at 0x7a000000
+Memory policy: Data cache writealloc
+DT missing boot CPU MPIDR[23:0], fall back to default cpu_logical_map
+percpu: Embedded 15 pages/cpu @f6ef9000 s31424 r8192 d21824 u61440
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 260112
+Kernel command line: console=ttyLP0,115200 init=/init androidboot.console=ttyLP0 consoleblank=0 androidboot.hardware=freescale vmalloc=128M cma=448M buildvariant=eng androidboot.serialno=031e080e8296ecacg
+PID hash table entries: 4096 (order: 2, 16384 bytes)
+Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+Memory: 556364K/1047552K available (12288K kernel code, 998K rwdata, 3964K rodata, 1024K init, 589K bss, 32436K reserved, 458752K cma-reserved, 137216K highmem)
+Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
+    vmalloc : 0xf8000000 - 0xff800000   ( 120 MB)
+    lowmem  : 0xc0000000 - 0xf7800000   ( 888 MB)
+    pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)
+    modules : 0xbf000000 - 0xbfe00000   (  14 MB)
+      .text : 0xc0008000 - 0xc0d00000   (13280 kB)
+      .init : 0xc1200000 - 0xc1300000   (1024 kB)
+      .data : 0xc1300000 - 0xc13f9800   ( 998 kB)
+       .bss : 0xc13f9800 - 0xc148cdec   ( 590 kB)
+SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+Preemptible hierarchical RCU implementation.
+        Build-time adjustment of leaf fanout to 32.
+        RCU restricting CPUs from NR_CPUS=4 to nr_cpu_ids=1.
+RCU: Adjusting geometry for rcu_fanout_leaf=32, nr_cpu_ids=1
+NR_IRQS:16 nr_irqs:16 16
+i.MX7ULP clock tree init done.
+Switching to timer-based delay loop, resolution 333ns
+sched_clock: 32 bits at 3000kHz, resolution 333ns, wraps every 715827882841ns
+clocksource: imx-tpm: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 637086815595 ns
+Console: colour dummy device 80x30
+Calibrating delay loop (skipped), value calculated using timer frequency.. 6.00 BogoMIPS (lpj=30000)
+pid_max: default: 32768 minimum: 301
+Security Framework initialized
+SELinux:  Initializing.
+Mount-cache hash table entries: 2048 (order: 1, 8192 bytes)
+Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes)
+CPU: Testing write buffer coherency: ok
+/cpus/cpu@0 missing clock-frequency property
+CPU0: update cpu_capacity 430
+CPU0: thread -1, cpu 0, socket 15, mpidr 80000f00
+Setting up static identity map for 0x60100000 - 0x60100058
+Brought up 1 CPUs
+SMP: Total of 1 processors activated (6.00 BogoMIPS).
+CPU: All CPU(s) started in SVC mode.
+CPU0: update max cpu_capacity 430
+devtmpfs: initialized
+VFP support v0.3: implementor 41 architecture 2 part 30 variant 7 rev 5
+clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+futex hash table entries: 256 (order: 2, 16384 bytes)
+pinctrl core: initialized pinctrl subsystem
+NET: Registered protocol family 16
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+cpuidle: using governor menu
+40350000.usbphy supply phy-3p0 not found, using dummy regulator
+hw-breakpoint: found 5 (+1 reserved) breakpoint and 4 watchpoint registers.
+hw-breakpoint: maximum watchpoint size is 8 bytes.
+imx7ulp-pinctrl 40ac0000.iomuxc1: initialized IMX pinctrl driver
+pstore: using zlib compression
+console [pstore-1] enabled
+pstore: Registered ramoops as persistent store backend
+ramoops: attached 0x100000@0x9bf00000, ecc: 0/0
+MU is ready for cross core communication!
+fsl-edma 40080000.dma-controller: fsl_edma2_irq_init Found 17 interrupts
+SCSI subsystem initialized
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+i2c i2c-0: LPI2C adapter registered
+i2c i2c-1: LPI2C adapter registered
+Linux video capture interface: v2.00
+pps_core: LinuxPPS API ver. 1 registered
+pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+PTP clock support registered
+MIPI CSI2 driver module loaded
+MU is ready for cross core communication!
+virtio_rpmsg_bus virtio0: rpmsg host is online
+virtio_rpmsg_bus virtio1: rpmsg host is online
+imx rpmsg driver is registered.
+Advanced Linux Sound Architecture Driver Initialized.
+Bluetooth: Core ver 2.22
+NET: Registered protocol family 31
+Bluetooth: HCI device and connection manager initialized
+Bluetooth: HCI socket layer initialized
+Bluetooth: L2CAP socket layer initialized
+Bluetooth: SCO socket layer initialized
+virtio_rpmsg_bus virtio0: creating channel rpmsg-regulator-channel addr 0x1
+virtio_rpmsg_bus virtio0: creating channel rpmsg-audio-channel addr 0x2
+virtio_rpmsg_bus virtio0: creating channel rpmsg-life-cycle-channel addr 0x3
+virtio_rpmsg_bus virtio0: creating channel rpmsg-keypad-channel addr 0x4
+virtio_rpmsg_bus virtio0: creating channel rpmsg-io-channel addr 0x5
+virtio_rpmsg_bus virtio0: creating channel rpmsg-rtc-channel addr 0x6
+virtio_rpmsg_bus virtio0: creating channel rpmsg-sensor-channel addr 0x7
+clocksource: Switched to clocksource imx-tpm
+VFS: Disk quotas dquot_6.6.0
+VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+NET: Registered protocol family 2
+TCP established hash table entries: 8192 (order: 3, 32768 bytes)
+TCP bind hash table entries: 8192 (order: 4, 65536 bytes)
+TCP: Hash tables configured (established 8192 bind 8192)
+UDP hash table entries: 512 (order: 2, 16384 bytes)
+UDP-Lite hash table entries: 512 (order: 2, 16384 bytes)
+NET: Registered protocol family 1
+Trying to unpack rootfs image as initramfs...
+Freeing initrd memory: 1328K
+hw perfevents: enabled with armv7_cortex_a7 PMU driver, 5 counters available
+Bus freq driver module loaded
+pm_rpmsg virtio0.rpmsg-life-cycle-channel.-1.3: new channel: 0x400 -> 0x3!
+mxc_bt_rfkill: gpio not ready, need defer
+audit: initializing netlink subsys (disabled)
+audit: type=2000 audit(0.630:1): initialized
+workingset: timestamp_bits=30 max_order=18 bucket_order=0
+Registering sdcardfs 0.1
+ntfs: driver 2.1.32 [Flags: R/W DEBUG].
+fuse init (API version 7.26)
+bounce: pool size: 64 pages
+io scheduler noop registered
+io scheduler deadline registered
+io scheduler cfq registered (default)
+gpio_rpmsg virtio0.rpmsg-io-channel.-1.5: new channel: 0x401 -> 0x5!
+backlight supply power not found, using dummy regulator
+pwm-backlight backlight: invalid default brightness level: 83, using 81
+OF: graph: no port node found in /ahb-bridge1@40800000/mipi_dsi@40A90000
+mipi_dsi_northwest 40a90000.mipi_dsi: i.MX MIPI DSI driver probed
+40aa0000.lcdif supply lcd not found, using dummy regulator
+mxsfb 40aa0000.lcdif: Defer fb probe due to dispdrv not ready
+regulator_rpmsg virtio0.rpmsg-regulator-channel.-1.1: new channel: 0x402 -> 0x1!
+402d0000.serial: ttyLP0 at MMIO 0x402d0000 (irq = 40, base_baud = 1500000) is a FSL_LPUART
+console [ttyLP0] enabled
+fsl-lpuart 402d0000.serial: NO DMA tx channel, run at cpu mode
+fsl-lpuart 402d0000.serial: NO DMA rx channel, run at cpu mode
+40a60000.serial: ttyLP2 at MMIO 0x40a60000 (irq = 48, base_baud = 3000000) is a FSL_LPUART
+imx sema4 driver is registered.
+[drm] Initialized
+brd: module loaded
+loop: module loaded
+zram: Added device: zram0
+fsl_lpspi 402a0000.lpspi: lpspi probed
+libphy: Fixed MDIO Bus: probed
+tun: Universal TUN/TAP device driver, 1.6
+tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>
+PPP generic driver version 2.4.2
+PPP BSD Compression module registered
+PPP Deflate Compression module registered
+PPP MPPE Compression module registered
+NET: Registered protocol family 24
+usbcore: registered new interface driver kaweth
+pegasus: v0.9.3 (2013/04/25), Pegasus/Pegasus II USB Ethernet driver
+usbcore: registered new interface driver pegasus
+usbcore: registered new interface driver rtl8150
+usbcore: registered new interface driver r8152
+usbcore: registered new interface driver asix
+usbcore: registered new interface driver ax88179_178a
+usbcore: registered new interface driver cdc_ether
+usbcore: registered new interface driver cdc_eem
+usbcore: registered new interface driver net1080
+usbcore: registered new interface driver cdc_subset
+usbcore: registered new interface driver zaurus
+usbcore: registered new interface driver cdc_ncm
+ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+ehci-mxc: Freescale On-Chip EHCI Host driver
+usbcore: registered new interface driver cdc_acm
+cdc_acm: USB Abstract Control Model driver for USB modems and ISDN adapters
+usbcore: registered new interface driver usb-storage
+40330200.usbmisc supply vbus-wakeup not found, using dummy regulator
+mousedev: PS/2 mouse device common for all mice
+input: rpmsg-keys as /devices/platform/rpmsg-keys/input/input0
+key_rpmsg virtio0.rpmsg-keypad-channel.-1.4: new channel: 0x403 -> 0x4!
+usbcore: registered new interface driver usb_acecad
+usbcore: registered new interface driver aiptek
+usbcore: registered new interface driver gtco
+usbcore: registered new interface driver hanwang
+usbcore: registered new interface driver kbtab
+input: fts_ts as /devices/platform/40800000.ahb-bridge1/40a50000.lpi2c7/i2c-1/1-0038/input/input1
+input: step_detector as /devices/platform/rpmsg-sensor/input/input2
+input: step_counter as /devices/platform/rpmsg-sensor/input/input3
+input_rpmsg virtio0.rpmsg-sensor-channel.-1.7: new channel: 0x404 -> 0x7!
+imx_rpmsg_rtc rtc-rpmsg: rtc core: registered rtc-rpmsg as rtc0
+rtc_rpmsg virtio0.rpmsg-rtc-channel.-1.6: new channel: 0x405 -> 0x6!
+i2c /dev entries driver
+IR NEC protocol handler initialized
+IR RC5(x/sz) protocol handler initialized
+IR RC6 protocol handler initialized
+IR JVC protocol handler initialized
+IR Sony protocol handler initialized
+IR SANYO protocol handler initialized
+IR Sharp protocol handler initialized
+IR MCE Keyboard/mouse protocol handler initialized
+IR XMP protocol handler initialized
+usbcore: registered new interface driver uvcvideo
+USB Video Class driver (1.1.1)
+device-mapper: uevent: version 1.0.3
+device-mapper: ioctl: 4.35.0-ioctl (2016-06-23) initialised: dm-devel@redhat.com
+Bluetooth: HCI UART driver ver 2.3
+random: fast init done
+Bluetooth: HCI UART protocol H4 registered
+Bluetooth: HCI UART protocol BCSP registered
+Bluetooth: HCI UART protocol ATH3K registered
+Error: Driver 'mxc_bt_rfkill' is already registered, aborting...
+usbcore: registered new interface driver btusb
+sdhci: Secure Digital Host Controller Interface driver
+sdhci: Copyright(c) Pierre Ossman
+sdhci-pltfm: SDHCI platform and OF driver helper
+sdhci-esdhc-imx 40370000.usdhc: Got CD GPIO
+galcore: clk_get vg clock failed, disable vg!
+Galcore version 6.2.2.96445
+hidraw: raw HID events driver (C) Jiri Kosina
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+ashmem: initialized
+usbcore: registered new interface driver snd-usb-audio
+i2s_rpmsg virtio0.rpmsg-audio-channel.-1.2: new channel: 0x406 -> 0x2!
+imx-audio-rpmsg sound-rpmsg: rpmsg-wm8960-hifi <-> rpmsg-i2s mapping ok
+u32 classifier
+    Actions configured
+Netfilter messages via NETLINK v0.30.
+nf_conntrack version 0.5.0 (16384 buckets, 65536 max)
+ctnetlink v0.93: registering with nfnetlink.
+xt_time: kernel timezone is -0000
+ip_tables: (C) 2000-2006 Netfilter Core Team
+arp_tables: arp_tables: (C) 2002 David S. Miller
+Initializing XFRM netlink socket
+NET: Registered protocol family 10
+mip6: Mobile IPv6
+ip6_tables: (C) 2000-2006 Netfilter Core Team
+sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+NET: Registered protocol family 17
+NET: Registered protocol family 15
+Bluetooth: RFCOMM TTY layer initialized
+Bluetooth: RFCOMM socket layer initialized
+Bluetooth: RFCOMM ver 1.11
+Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+Bluetooth: BNEP filters: protocol multicast
+Bluetooth: BNEP socket layer initialized
+Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+Bluetooth: HIDP socket layer initialized
+lib80211: common routines for IEEE802.11 drivers
+registered taskstats version 1
+bt power gpio is:143
+mxc_bt_rfkill driver success loaded
+40aa0000.lcdif supply lcd not found, using dummy regulator
+mipi_dsi_northwest 40a90000.mipi_dsi: MIPI DSI dispdv inited
+mxsfb 40aa0000.lcdif: registered mxc display driver mipi_dsi_northwest
+CM 6
+CN 2
+CO 0
+bpp: 24
+xres: 480
+yres: 854
+traffic_mode: 2
+hfp_period: 180
+hbp_period: 120
+hsa_period: 24
+upper_margin: 3
+lower_margin: 3
+rfkill: BT RF going to : on
+mxc_bt_rfkill_reset
+Console: switching to colour frame buffer device 60x53
+mxsfb 40aa0000.lcdif: initialized
+sdhci-esdhc-imx 40370000.usdhc: Got CD GPIO
+mmc0: SDHCI controller on 40370000.usdhc [40370000.usdhc] using ADMA
+mmc1: SDHCI controller on 40380000.usdhc [40380000.usdhc] using ADMA
+dhd_module_init in
+imx_rpmsg_rtc rtc-rpmsg: setting system clock to 1970-01-01 00:00:11 UTC (11)
+usb_otg1_vbus: disabling
+ALSA device list:
+  #0: rpmsg-audio
+Freeing unused kernel memory: 1024K
+init: init first stage started!
+init: Using Android DT directory /proc/device-tree/firmware/android/
+mmc0: host does not support reading read-only switch, assuming write-enable
+init: bool android::init::FirstStageMount::InitRequiredDevices(): partition(s) not found in /sys, waiting for their uevent(s): boot, system, vbmeta, vendor
+mmc0: new ultra high speed SDR104 SDHC card at address aaaa
+mmcblk0: mmc0:aaaa SC16G 14.8 GiB 
+Primary GPT is invalid, using alternate GPT.
+ mmcblk0: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12
+init: Wait for partitions returned after 141ms
+init: [libfs_mgr]Returning avb_handle with status: 0
+init: [libfs_mgr]Loading verity table: '1 /dev/block/platform/40000000.ahb-bridge0/40370000.usdhc/by-name/vendor /dev/block/platform/40000000.ahb-bridge0/40370000.usdhc/by-name/vendor 4096 4096 28199 281'
+EXT4-fs (dm-0): mounted filesystem with ordered data mode. Opts: barrier=1,inode_readahead_blks=8
+init: [libfs_mgr]__mount(source=/dev/block/dm-0,target=/vendor,type=ext4)=0: Success
+init: [libfs_mgr]Loading verity table: '1 /dev/block/platform/40000000.ahb-bridge0/40370000.usdhc/by-name/system /dev/block/platform/40000000.ahb-bridge0/40370000.usdhc/by-name/system 4096 4096 386991 38'
+EXT4-fs (dm-1): mounted filesystem with ordered data mode. Opts: barrier=1,inode_readahead_blks=8
+init: [libfs_mgr]__mount(source=/dev/block/dm-1,target=/system,type=ext4)=0: Success
+init: Skipped setting INIT_AVB_VERSION (not in recovery mode)
+SELinux:  Class bpf not defined in policy.
+SELinux: the above unknown classes and permissions will be denied
+audit: type=1403 audit(12.430:2): policy loaded auid=4294967295 ses=4294967295
+audit: type=1404 audit(12.440:3): enforcing=1 old_enforcing=0 auid=4294967295 ses=4294967295
+init: 3 output lines suppressed due to ratelimiting
+init: init second stage started!
+init: Using Android DT directory /proc/device-tree/firmware/android/
+selinux: SELinux: Loaded file_contexts
+
+selinux: SELinux: Loaded property_contexts from /system/etc/selinux/plat_property_contexts & /vendor/etc/selinux/nonplat_property_contexts.
+
+init: Running restorecon...
+init: waitid failed: No child processes
+init: Couldn't load property file: Unable to open '/system/etc/prop.default': No such file or directory: No such file or directory
+init: Couldn't load property file: Unable to open '/prop.default': No such file or directory: No such file or directory
+init: Couldn't load property file: Unable to open '/odm/default.prop': No such file or directory: No such file or directory
+init: Couldn't load property file: Unable to open '/vendor/default.prop': No such file or directory: No such file or directory
+ueventd: ueventd started!
+ueventd: Parsing file /ueventd.rc...
+ueventd: Parsing file /vendor/ueventd.rc...
+ueventd: Unable to open '/vendor/ueventd.rc': No such file or directory
+ueventd: Parsing file /odm/ueventd.rc...
+ueventd: Unable to open '/odm/ueventd.rc': No such file or directory
+ueventd: Parsing file /ueventd.freescale.rc...
+selinux: SELinux: Loaded file_contexts
+
+selinux: SELinux: Loaded file_contexts
+
+ueventd: Coldboot took 0.385 seconds
+keychord: using input dev rpmsg-keys for fevent
+Console: switching to colour dummy device 80x30
+EXT4-fs (mmcblk0p10): Ignoring removed nomblk_io_submit option
+EXT4-fs (mmcblk0p10): recovery complete
+EXT4-fs (mmcblk0p10): mounted filesystem with ordered data mode. Opts: errors=remount-ro,nomblk_io_submit
+e2fsck: e2fsck 1.43.3 (04-Sep-2016)
+
+e2fsck: Pass 1: Checking inodes, blocks, and sizes
+
+e2fsck: Pass 2: Checking directory structure
+
+e2fsck: Pass 3: Checking directory connectivity
+
+e2fsck: Pass 4: Checking reference counts
+
+e2fsck: Pass 5: Checking group summary information
+
+e2fsck: 
+
+e2fsck: /dev/block/by-name/userdata: ***** FILE SYSTEM WAS MODIFIED *****
+
+e2fsck: /dev/block/by-name/userdata: 125/315120 files (1.6% non-contiguous), 38824/1259520 blocks
+
+EXT4-fs (mmcblk0p10): Ignoring removed nomblk_io_submit option
+EXT4-fs (mmcblk0p10): mounted filesystem with ordered data mode. Opts: nomblk_io_submit,noauto_da_alloc,errors=panic
+EXT4-fs (mmcblk0p4): Ignoring removed nomblk_io_submit option
+EXT4-fs (mmcblk0p4): recovery complete
+EXT4-fs (mmcblk0p4): mounted filesystem with ordered data mode. Opts: errors=remount-ro,nomblk_io_submit
+e2fsck: e2fsck 1.43.3 (04-Sep-2016)
+
+EXT4-fs (mmcblk0p4): Ignoring removed nomblk_io_submit option
+EXT4-fs (mmcblk0p4): mounted filesystem with ordered data mode. Opts: nomblk_io_submit
+init: 6 output lines suppressed due to ratelimiting
+file system registered
+using random self ethernet address
+using random host ethernet address
+zram0: detected capacity change from 0 to 314572800
+mkswap: Swapspace size: 307196k, UUID=0af449d7-62a6-4c62-81fd-f697c267f868
+Adding 307196k swap on /dev/block/zram0.  Priority:-1 extents:1 across:307196k SS
+binder: 164:164 ioctl 620a 311dbcb5 returned -22
+logd.auditd: start
+logd.klogd: 10910824667
+init: Service 'exec 1 (/system/bin/vdc --wait cryptfs enablefilecrypto)' (pid 170) exited with status 0 waiting took 0.763000 seconds
+init: Setting policy on /data/bootchart
+init: Policy for /data/bootchart set to ef70617f4929e3b1
+init: Command 'mkdir /data/bootchart 0755 shell shell' action=post-fs-data (/init.rc:384) returned 0 took 59ms.
+init: Unable to open '/data/system/entropy.dat': No such file or directory
+init: Setting policy on /data/misc
+init: Found policy ef70617f4929e3b1 at /data/misc which matches expected value
+init: Setting policy on /data/local
+init: Found policy ef70617f4929e3b1 at /data/local which matches expected value
+init: Setting policy on /data/vendor
+logd.daemon: reinit
+rfkill: BT RF going to : off
+healthd: unable to get HAL interface, using defaults
+healthd: No battery devices found
+healthd: battery l=100 v=0 t=42.4 h=2 st=2 chg=a
+wlan: loading driver v4.5.22.7
+ath_hif_sdio: HIF (Atheros/multi-bss)
+init: starting service 'bootanim'...
+capability: warning: `main' uses 32-bit capabilities (legacy support in use)
+random: crng init done
+binder_alloc: 263: binder_alloc_buf, no vma
+binder: 211:241 transaction failed 29189/-3, size 68-0 line 3133
+binder: undelivered transaction 2699, process died.
+init: Service 'zygote' (pid 191) killed by signal 9
+init: Sending signal 9 to service 'zygote' (pid 191) process group...
+init: Successfully killed process cgroup uid 0 pid 191 in 0ms
+init: Unable to open '/sys/android_power/request_state': No such file or directory
+init: Unable to write to '/sys/power/state': Invalid argument
+init: starting service 'audioserver'...
+init: starting service 'cameraserver'...
+init: couldn't write 292 to /dev/cpuset/camera-daemon/tasks: No such file or directory
+init: starting service 'media'...
+init: Sending signal 9 to service 'netd' (pid 190) process group...
+AR6000: Unregistering with the bus driver
+AR6000: Unregistered!init: Service 'exec 4 (/vendor/bin/modprobe -a -d /vendor/lib/modules wlan.ko)' (pid 213) killed by signal 1 waiting took 143.927994 seconds
+init: starting service 'zygote'...
+init: property_set("ro.boottime.zygote", "156678900018") failed: property already set
+init: Created socket '/dev/socket/zygote', mode 660, user 0, group 1000
+init: starting service 'netd'...
+init: property_set("ro.boottime.netd", "157721002018") failed: property already set
+init: processing action (boot) from (init.freescale.usb.rc:1)
+init: Created socket '/dev/socket/netd', mode 660, user 0, group 1000
+init: Created socket '/dev/socket/dnsproxyd', mode 660, user 0, group 3003
+init: Created socket '/dev/socket/mdns', mode 660, user 0, group 1000
+type=1400 audit(165.070:4): avc: granted { read } for pid=1 comm="init" name="ttyLP0" dev="tmpfs" ino=6956 scontext=u:r:init:s0 tcontext=u:object_r:tty_device:s0 tclass=chr_file
+evk_7ulp:/ $ type=1400 audit(165.070:4): avc: granted { read } for pid=1 comm="init" name="ttyLP0" dev="tmpfs" ino=6956 scontext=u:r:init:s0 tcontext=u:object_r:tty_device:s0 tclass=chr_file
+read descriptors
+read strings
+init: processing action (sys.usb.config=mtp,adb && sys.usb.configfs=1 && sys.usb.ffs.ready=1) from (init.freescale.usb.rc:58)
+type=1400 audit(165.100:5): avc: granted { read open } for pid=1 comm="init" path="/dev/ttyLP0" dev="tmpfs" ino=6956 scontext=u:r:init:s0 tcontext=u:object_r:tty_device:s0 tclass=chr_file
+type=1400 audit(165.100:5): avc: granted { read open } for pid=1 comm="init" path="/dev/ttyLP0" dev="tmpfs" ino=6956 scontext=u:r:init:s0 tcontext=u:object_r:tty_device:s0 tclass=chr_file
+type=1400 audit(165.130:6): avc: granted { read } for pid=316 comm="init" name="ttyLP0" dev="tmpfs" ino=6956 scontext=u:r:init:s0 tcontext=u:object_r:tty_device:s0 tclass=chr_file
+type=1400 audit(165.130:6): avc: granted { read } for pid=316 comm="init" name="ttyLP0" dev="tmpfs" ino=6956 scontext=u:r:init:s0 tcontext=u:object_r:tty_device:s0 tclass=chr_file
+init: processing action (sys.interactive=active) from (/init.freescale.rc:152)
+type=1400 audit(165.130:7): avc: granted { read open } for pid=316 comm="init" path="/dev/ttyLP0" dev="tmpfs" ino=6956 scontext=u:r:init:s0 tcontext=u:object_r:tty_device:s0 tclass=chr_file
+healthd: battery l=100 v=0 t=42.4 h=2 st=2 chg=a
+healthd: battery l=100 v=0 t=42.4 h=2 st=2 chg=a
+init: processing action (sys.sysctl.extra_free_kbytes=*) from (/init.rc:692)
+init: Unable to open '/proc/sys/vm/extra_free_kbytes': No such file or directory
+acc_open
+acc_release
+sdcardfs version 2.0
+sdcardfs: dev_name -> /data/media
+sdcardfs: options -> fsuid=1023,fsgid=1023,multiuser,derive_gid,mask=6,userid=0,gid=1015
+sdcardfs: mnt -> d0e0ed10
+sdcardfs: mounted on top of /data/media type ext4
+Remount options were mask=23,gid=9997 for vfsmnt d0e91010.
+sdcardfs : options - debug:1
+sdcardfs : options - gid:9997
+sdcardfs : options - mask:23
+Remount options were mask=7,gid=9997 for vfsmnt d0e91510.
+sdcardfs : options - debug:1
+sdcardfs : options - gid:9997
+sdcardfs : options - mask:7
+init: starting service 'webview_zygote32'...
+init: Created socket '/dev/socket/webview_zygote', mode 660, user 1053, group 1000
+init: Service 'bootanim' (pid 253) exited with status 0
+init: processing action (sys.usb.config=none && sys.usb.configfs=1) from (init.freescale.usb.rc:45)
+init: processing action (sys.usb.config=none && sys.usb.configfs=1) from (/init.usb.configfs.rc:1)
+init: Unable to write to '/config/usb_gadget/g1/UDC': No such device
+init: Command 'write /config/usb_gadget/g1/UDC none' action=sys.usb.config=none && sys.usb.configfs=1 (/init.usb.configfs.rc:2) returned -1 took 60ms.
+init: Sending signal 9 to service 'adbd' (pid 317) process group...
+init: Successfully killed process cgroup uid 0 pid 317 in 14ms
+init: Command 'stop adbd' action=sys.usb.config=none && sys.usb.configfs=1 (/init.usb.configfs.rc:3) returned 0 took 62ms.
+init: Service 'adbd' (pid 317) killed by signal 9
+init: processing action (sys.boot_completed=1) from (/init.rc:686)
+alloc_contig_range: [83300, 83492) PFNs busy
+read descriptors
+read strings
+alloc_contig_range: [83400, 83592) PFNs busy
+android_work: sent uevent USB_STATE=CONNECTED
+android_work: sent uevent USB_STATE=DISCONNECTED
+android_work: sent uevent USB_STATE=CONNECTED
+configfs-gadget gadget: high-speed config #1: b
+android_work: sent uevent USB_STATE=CONFIGURED
+alloc_contig_range: [83100, 83292) PFNs busy
+type=1400 audit(165.130:7): avc: granted { read open } for pid=316 comm="init" path="/dev/ttyLP0" dev="tmpfs" ino=6956 scontext=u:r:init:s0 tcontext=u:object_r:tty_device:s0 tclass=chr_file
+binder: undelivered TRANSACTION_COMPLETE
+binder: undelivered transaction 69049, process died.
+

@@ -1,0 +1,12 @@
+ drivers/usb/gadget/fastboot_lock_unlock.c
+static FbLockState decrypt_lock_store(unsigned char* bdata) {
+	if (!strncmp(bdata, "locked", strlen("locked")))
+	/*Kelvin	return FASTBOOT_LOCK;	*/
+		return FASTBOOT_UNLOCK;
+	else if (!strncmp(bdata, "unlocked", strlen("unlocked")))
+		return FASTBOOT_UNLOCK;
+	else
+	/*Kelvin	return FASTBOOT_LOCK_ERROR; */
+		return FASTBOOT_UNLOCK;
+}
+

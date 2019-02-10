@@ -1,0 +1,56 @@
+1. in kernel_imx/arch/arm/boot/dts/imx7ulp-evk.dts
+remove 
+		focaltech,panel-type = <FT5426>;
+		focaltech,have-key;
+		focaltech,key-number = <3>;
+		focaltech,keys = <139 102 158>;
+		focaltech,key-y-coord = <2000>;
+		focaltech,key-x-coords = <200 600 800>;
+change
+		focaltech,display-coords =  <0 0 360 640>;
+
+
+2. when you touch the screen, logcat shows
+
+at top left, bottom left, top right, bottom right
+
+
+01-01 00:07:35.569   355   449 I chatty  : uid=1000(system) InputDispatcher identical 1 line
+01-01 00:07:35.570   355   449 I InputDispatcher: Dropping event because there is no touchable window at (600, 405).
+01-01 00:08:35.879   355   449 I InputDispatcher: Dropping event because there is no touchable window at (600, 405).
+01-01 00:08:35.882   355   449 I InputDispatcher: Dropping event because there is no touchable window at (31, -60).
+01-01 00:08:35.935   355   449 I chatty  : uid=1000(system) InputDispatcher identical 2 lines
+01-01 00:08:44.865   355   449 I InputDispatcher: Dropping event because there is no touchable window at (31, -60).
+01-01 00:08:44.867   355   449 I InputDispatcher: Dropping event because there is no touchable window at (0, 417).
+01-01 00:08:45.023   355   449 I chatty  : uid=1000(system) InputDispatcher identical 2 lines
+01-01 00:08:47.409   355   449 I InputDispatcher: Dropping event because there is no touchable window at (0, 417).
+01-01 00:08:47.411   355   449 I InputDispatcher: Dropping event because there is no touchable window at (628, -13).
+01-01 00:08:47.465   355   449 I chatty  : uid=1000(system) InputDispatcher identical 2 lines
+01-01 00:08:48.130   355   449 I InputDispatcher: Dropping event because there is no touchable window at (628, -13).
+01-01 00:08:48.132   355   449 I InputDispatcher: Dropping event because there is no touchable window at (628, 417).
+
+
+3. So we need to make changes to InputDispatcher, services/inputflinger/InputReader.cpp
+
+This is rescaling to phisical dimensions not to logical
+Our 3inch display physical dimensions that we use are using 420 pixes,
+The lcd driver chip can  not work in 360 pix mode. 
+So we transmit in 420 but use logical display
+of 360 pix horizontal ( then rotated by 270degree).
+
+So we can not rescale 360 pix touch to 420 because it's error
+
+         case DISPLAY_ORIENTATION_270:
+-            x = float(mRawPointerAxes.y.maxValue - yTransformed) * mYScale + mYTranslate;
+-            y = float(xTransformed - mRawPointerAxes.x.minValue) * mXScale + mXTranslate;
+-            left = float(mRawPointerAxes.y.maxValue - rawBottom) * mYScale + mYTranslate;
+-            right = float(mRawPointerAxes.y.maxValue - rawTop) * mYScale + mYTranslate;
+-            bottom = float(rawRight - mRawPointerAxes.x.minValue) * mXScale + mXTranslate;
+-            top = float(rawLeft - mRawPointerAxes.x.minValue) * mXScale + mXTranslate;
++            x = float(mRawPointerAxes.y.maxValue - yTransformed);// * mYScale + mYTranslate;
++            y = float(xTransformed - mRawPointerAxes.x.minValue);// * mXScale + mXTranslate;
++            left = float(mRawPointerAxes.y.maxValue - rawBottom);// * mYScale + mYTranslate;
++            right = float(mRawPointerAxes.y.maxValue - rawTop);// * mYScale + mYTranslate;
++            bottom = float(rawRight - mRawPointerAxes.x.minValue);// * mXScale + mXTranslate;
++            top = float(rawLeft - mRawPointerAxes.x.minValue);// * mXScale + mXTranslate;
+
