@@ -1,0 +1,323 @@
+diff --git a/arch/arm/cpu/armv7/mx7ulp/soc.c b/arch/arm/cpu/armv7/mx7ulp/soc.c
+index c5599b72a9..3b2d0f7fb1 100644
+--- a/arch/arm/cpu/armv7/mx7ulp/soc.c
++++ b/arch/arm/cpu/armv7/mx7ulp/soc.c
+@@ -185,7 +185,7 @@ int print_cpuinfo(void)
+ 	char cause[18];
+ 
+ 	cpurev = get_cpu_rev();
+-
++	printf("Kelvin M4 remove flash added\n\n");
+ 	printf("CPU:   Freescale i.MX%s rev%d.%d at %d MHz\n",
+ 	       get_imx_type((cpurev & 0xFF000) >> 12),
+ 	       (cpurev & 0x000F0) >> 4, (cpurev & 0x0000F) >> 0,
+diff --git a/arch/arm/dts/imx7ulp-evk.dts b/arch/arm/dts/imx7ulp-evk.dts
+index e56b7226e6..4eea86382d 100644
+--- a/arch/arm/dts/imx7ulp-evk.dts
++++ b/arch/arm/dts/imx7ulp-evk.dts
+@@ -365,7 +365,7 @@
+ 	#size-cells = <0>;
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_lpspi3>;
+-	status = "okay";
++	status = "disabled";
+ 
+ 	spidev0: spi@0 {
+ 		reg = <0>;
+diff --git a/board/freescale/mx7ulp_evk/Kconfig b/board/freescale/mx7ulp_evk/Kconfig
+index ff448311f9..08e4595e80 100644
+--- a/board/freescale/mx7ulp_evk/Kconfig
++++ b/board/freescale/mx7ulp_evk/Kconfig
+@@ -9,4 +9,34 @@ config SYS_VENDOR
+ config SYS_CONFIG_NAME
+ 	default "mx7ulp_evk"
+ 
++config IMX_M4_BOOT
++	bool "boot M4 core from file"
++	select BOARD_LATE_INIT
++	depends on ARCH_MX7ULP
++	help
++		Select this to boot M4 core by file specified
++
++config IMX_M4_BOOT_FILE
++	string "M4 boot file"
++	default "etc/firmware/sdk20-app.img"
++	depends on IMX_M4_BOOT
++	help
++	  This file to boot M4 core from
++
++config IMX_M4_BOOT_DEV
++	string "M4 boot file device"
++	default "mmc"
++	depends on IMX_M4_BOOT
++	help
++	  This device to find the M4 boot file on
++
++config IMX_M4_BOOT_PART
++	string "M4 boot partitiom"
++	default "0:3"
++	depends on IMX_M4_BOOT
++	help
++	  This partition to find the M4 boot file on
++
++
++
+ endif
+diff --git a/board/freescale/mx7ulp_evk/mx7ulp_evk.c b/board/freescale/mx7ulp_evk/mx7ulp_evk.c
+index c4490ce868..8bf9c0f4ec 100644
+--- a/board/freescale/mx7ulp_evk/mx7ulp_evk.c
++++ b/board/freescale/mx7ulp_evk/mx7ulp_evk.c
+@@ -10,11 +10,31 @@
+ #include <asm/arch/sys_proto.h>
+ #include <asm/arch/mx7ulp-pins.h>
+ #include <asm/arch/iomux.h>
++#include <asm/arch/clock.h>
++#include <asm/arch/imx-regs.h>
+ #include <asm/gpio.h>
+ #include <usb.h>
+ #include <dm.h>
+ #include <asm/imx-common/video.h>
+ 
++#include <asm/sections.h>
++#include <asm/imx-common/hab.h>
++#include <asm/imx-common/boot_mode.h>
++#include <fdt_support.h>
++
++#include <config.h>
++#include <vsprintf.h>
++#include <errno.h>
++#include <dm.h>
++
++#include <fs.h>
++#include <mmc.h>
++
++#include <command.h>
++#include <environment.h>
++#include <linux/stddef.h>
++#include <malloc.h>
++
+ #ifdef CONFIG_FSL_FASTBOOT
+ #include <fastboot.h>
+ #include <asm/imx-common/boot_mode.h>
+@@ -31,6 +51,34 @@ DECLARE_GLOBAL_DATA_PTR;
+ 
+ #define MIPI_GPIO_PAD_CTRL	(PAD_CTL_OBE_ENABLE)
+ 
++static size_t boot_m4_core(void);
++
++#ifdef CONFIG_IMX_M4_BOOT
++
++int do_m4 (cmd_tbl_t *cmdtp, int flag, int argc, char *const argv[])
++{
++ int  rc;
++ int  rcode = 0;
++
++ //if (argc < 2) {
++ // cmd_usage(cmdtp);
++ // return 1;
++ //}
++ printf ("Booting M4 core...\n");
++ rc = boot_m4_core();
++ printf ("M4 boot Done status %d\n", rc);
++
++ return rcode;
++}
++
++U_BOOT_CMD(
++ m4, CONFIG_SYS_MAXARGS, 1, do_m4,
++ "Boot M4 core",
++ "addr [arg ...]\n    - boot M4 core\n"
++);
++#endif
++
++
+ int dram_init(void)
+ {
+ 	gd->ram_size = PHYS_SDRAM_SIZE;
+@@ -49,6 +97,37 @@ static void setup_iomux_uart(void)
+ 					 ARRAY_SIZE(lpuart4_pads));
+ }
+ 
++static iomux_cfg_t const m4rfid_pads[] = {
++
++/* PTE8 (coord F9), RFID_13M_BUSY input */
++  MX7ULP_PAD_PTE8__PTE8   |   MUX_PAD_CTRL(PAD_CTL_IBE_ENABLE),
++
++/* PTE9 (coord G9), RFID_13M_RESET output*/
++  MX7ULP_PAD_PTE9__PTE9   |   MUX_PAD_CTRL(PAD_CTL_OBE_ENABLE),
++
++/* PTE10 (coord D8), RFID_13M_IRQ input*/
++  MX7ULP_PAD_PTE10__PTE10   |   MUX_PAD_CTRL(PAD_CTL_IBE_ENABLE),
++
++/* PTF16 (coord H1), RFID_13M_MISO input*/
++  MX7ULP_PAD_PTF16__PTF16   |   MUX_PAD_CTRL(PAD_CTL_IBE_ENABLE),
++
++/* PTF17 (coord H2), RFID_13M_MOSI output */
++  MX7ULP_PAD_PTF17__PTF17   |   MUX_PAD_CTRL(PAD_CTL_OBE_ENABLE),
++
++/* PTF18 (coord J2), RFID_13M_SCLK output */
++  MX7ULP_PAD_PTF18__PTF18   |   MUX_PAD_CTRL(PAD_CTL_OBE_ENABLE),
++
++/* PTF19 (coord K2), RFID_13M_SS output */
++  MX7ULP_PAD_PTF19__PTF19   |   MUX_PAD_CTRL(PAD_CTL_OBE_ENABLE),
++};
++
++static void setup_iomux_m4rfid(void)
++{
++  mx7ulp_iomux_setup_multiple_pads(m4rfid_pads,
++           ARRAY_SIZE(m4rfid_pads));
++}
++
++
+ #ifdef CONFIG_FSL_QSPI
+ #ifndef CONFIG_DM_SPI
+ static iomux_cfg_t const quadspi_pads[] = {
+@@ -113,6 +192,12 @@ int board_ehci_usb_phy_mode(struct udevice *dev)
+ int board_early_init_f(void)
+ {
+ 	setup_iomux_uart();
++  setup_iomux_m4rfid();
++
++  // M4 core needs ports E and F
++
++  pcc_clock_enable(PER_CLK_PCTLE, true);
++  pcc_clock_enable(PER_CLK_PCTLF, true);
+ 
+ 	return 0;
+ }
+@@ -205,6 +290,90 @@ int board_mmc_get_env_dev(int devno)
+ 	return devno;
+ }
+ 
++#ifdef CONFIG_IMX_M4_BOOT
++
++static size_t boot_m4_core(void)
++{
++  char *dev = "mmc";
++  char *part = "0:3";
++  char *file = "etc/firmware/sdk20-app.img";
++  loff_t    act_read = 0;
++
++  int   rc;
++
++  //struct mmc  *mmc;
++  //const u8  mmc_dev_num = CONFIG_SYS_MMC_ENV_DEV;
++
++  u32 *dest_addr = (u32 *)TCML_BASE; /*TCML*/
++  u32 pc = 0, tag = 0;
++
++#ifdef CONFIG_IMX_M4_BOOT_FILE
++  file = CONFIG_IMX_M4_BOOT_FILE;
++#endif
++
++#ifdef CONFIG_IMX_M4_BOOT_DEV
++  dev = CONFIG_IMX_M4_BOOT_DEV;
++#endif
++
++#ifdef CONFIG_IMX_M4_BOOT_PART
++  part = CONFIG_IMX_M4_BOOT_PART;
++#endif
++
++  printf("Booting M4 core from dev %s part %s file %s...\n", dev, part, file);
++
++#if 0
++  mmc = find_mmc_device(mmc_dev_num);
++  if (!mmc) {
++    printf("No SD/MMC/eMMC card found\n");
++    return 0;
++  }
++
++  if (mmc_init(mmc)) {
++    printf("%s(%d) init failed\n", IS_SD(mmc) ? "SD" : "MMC",
++           mmc_dev_num);
++    return 0;
++  }
++#endif
++
++  if (fs_set_blk_dev(dev, part, FS_TYPE_ANY)) {
++    printf("Error: M4 boot partition not found\n");
++    return -1;
++  }
++
++  /* Perfrom file read */
++  rc = fs_read(file, (ulong)dest_addr, 0, 0, &act_read);
++
++  if (rc)
++  {
++    printf("Error: Cannot read firmware file\n");
++    return -1;
++  }
++
++  /* Set GP register to tell the M4 rom the image entry */
++  /* We assume the M4 image has IVT head and padding which
++   * should be same as the one programmed into QSPI flash
++   */
++  tag = *(dest_addr + 1024);
++  if (tag != 0x402000d1 && tag !=0x412000d1)
++  {
++    printf("Error: invalid tag\n");
++    return -1;
++  }
++
++  pc = *(dest_addr + 1025);
++
++  writel(pc, SIM0_RBASE + 0x70); /*GP7*/
++
++
++  printf("M4 core running f/w size %ld\n", (long)act_read);
++
++  return 0;
++}
++#endif
++
++
++#ifdef CONFIG_BOARD_LATE_INIT
++
+ int board_late_init(void)
+ {
+ 	setenv("tee", "no");
+@@ -216,8 +385,13 @@ int board_late_init(void)
+ 	board_late_mmc_env_init();
+ #endif
+ 
++#ifdef CONFIG_IMX_M4_BOOT
++  boot_m4_core();
++#endif
++
+ 	return 0;
+ }
++#endif
+ 
+ #ifdef CONFIG_FSL_FASTBOOT
+ #ifdef CONFIG_ANDROID_RECOVERY
+diff --git a/configs/mx7ulp_evk_android_defconfig b/configs/mx7ulp_evk_android_defconfig
+index 98e17a5e92..dcf8128eba 100644
+--- a/configs/mx7ulp_evk_android_defconfig
++++ b/configs/mx7ulp_evk_android_defconfig
+@@ -43,3 +43,8 @@ CONFIG_MXC_USB_OTG_HACTIVE=y
+ CONFIG_USB_STORAGE=y
+ CONFIG_VIDEO=y
+ CONFIG_FLASH_MCUFIRMWARE_SUPPORT=y
++# CONFIG_IMX_M4_BIND=y
++CONFIG_IMX_M4_BOOT=y
++CONFIG_IMX_M4_BOOT_FILE="etc/firmware/sdk20-app.img"
++CONFIG_IMX_M4_BOOT_DEV="mmc"
++CONFIG_IMX_M4_BOOT_PART="0:3"
+diff --git a/drivers/usb/gadget/fastboot_lock_unlock.c b/drivers/usb/gadget/fastboot_lock_unlock.c
+index 8f17140289..cf81d02c3a 100644
+--- a/drivers/usb/gadget/fastboot_lock_unlock.c
++++ b/drivers/usb/gadget/fastboot_lock_unlock.c
+@@ -57,11 +57,11 @@ int fastboot_flash_find_index(const char *name);
+  */
+ static FbLockState decrypt_lock_store(unsigned char* bdata) {
+ 	if (!strncmp(bdata, "locked", strlen("locked")))
+-		return FASTBOOT_LOCK;
++		return FASTBOOT_UNLOCK;
+ 	else if (!strncmp(bdata, "unlocked", strlen("unlocked")))
+ 		return FASTBOOT_UNLOCK;
+ 	else
+-		return FASTBOOT_LOCK_ERROR;
++		return FASTBOOT_UNLOCK;
+ }
+ 
+ static inline int encrypt_lock_store(FbLockState lock, unsigned char* bdata) {
